@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-import { COLORS, WEIGHTS } from '../../constants';
+import { QUERIES, WEIGHTS } from '../../constants';
 import Logo from '../Logo';
 import SuperHeader from '../SuperHeader';
 import MobileMenu from '../MobileMenu';
+import UnstyledButton from '../UnstyledButton';
+import Icon from '../Icon';
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -30,6 +32,20 @@ const Header = () => {
           <NavLink href="/collections">Collections</NavLink>
         </Nav>
         <Side />
+        <MobileNav>
+          <UnstyledButton>
+            <Icon id="shopping-bag" strokeWidth={2} />
+          </UnstyledButton>
+          <UnstyledButton>
+            <Icon id="search" strokeWidth={2} />
+          </UnstyledButton>
+          <UnstyledButton
+            onClick={() => setShowMobileMenu(true)}
+          >
+            <Icon id="menu" strokeWidth={2} />
+          </UnstyledButton>
+
+        </MobileNav>
       </MainHeader>
 
       <MobileMenu
@@ -45,14 +61,44 @@ const MainHeader = styled.div`
   align-items: baseline;
   padding: 18px 32px;
   height: 72px;
-  border-bottom: 1px solid ${COLORS.gray[300]};
+  border-bottom: 1px solid var(--color-gray-300);
+
+  word-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  @media ${QUERIES.tabletAndDown} {
+    align-items: center;
+  }
+
+  @media ${QUERIES.phoneAndDown} {
+    padding: 20px 16px;
+  }
 `;
 
 const Nav = styled.nav`
   display: flex;
-  gap: 48px;
+  gap: clamp(16px, 4vw , 48px);
   margin: 0px 48px;
+
+  @media ${QUERIES.tabletAndDown} {
+    display: none;
+  }
 `;
+
+const MobileNav = styled.div`
+  display: none;
+
+  @media ${QUERIES.tabletAndDown} {
+    display: flex;
+    gap: 32px;
+  }
+
+  @media ${QUERIES.phoneAndDown} {
+    display: flex;
+    gap: 16px;
+  }
+`
 
 const Side = styled.div`
   flex: 1;
@@ -62,11 +108,12 @@ const NavLink = styled.a`
   font-size: 1.125rem;
   text-transform: uppercase;
   text-decoration: none;
-  color: ${COLORS.gray[900]};
+  color: var(--color-gray-700);
   font-weight: ${WEIGHTS.medium};
+  width: max-content;
 
   &:first-of-type {
-    color: ${COLORS.secondary};
+    color: var(--color-secondary);
   }
 `;
 
